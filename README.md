@@ -1,6 +1,6 @@
 # Useful
 
-##将print内容写入`.txt`文件
+## 将print内容写入`.txt`文件
 ### 方法一
 ```python
 import os
