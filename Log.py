@@ -1,14 +1,14 @@
 ## 将print内容写入`.txt`文件
 ### 方法一
-```python
+
 import os
 t = 5
 s = 'hello world!'
 with open('test.txt','a') as file0:
     print('%d' % t,'%s' % s,file=file0)
-```
+
 ### 方法二
-```python
+
 import sys
 import os
  
@@ -33,9 +33,9 @@ print(os.path.dirname(__file__))
 print('------------------')
 for i in range(5, 10):
     print("this is the %d times" % i)
-```
+
 
 ### 方法三
-```shell
-python<你的python文件.py>outputfile.txt
-```
+
+# python<你的python文件.py>outputfile.txt
+
