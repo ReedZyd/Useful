@@ -59,8 +59,8 @@ class LayerNormLSTM(nn.Module):
         else:
             hx, cx = hidden
 
-        ht = [[None, ] * (self.num_layers * num_directions)] * seq_len
-        ct = [[None, ] * (self.num_layers * num_directions)] * seq_len
+        ht = [[None for i in range(self.num_layers * num_directions)] for j in range(seq_len)]
+        ct = [[None for i in range(self.num_layers * num_directions)] for j in range(seq_len)]
 
         if self.bidirectional:
             xs = input
