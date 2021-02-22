@@ -1,4 +1,4 @@
-ef draw_heatmap(img_path, means, sigmas, weights, objects, width, height, output_path, gt=None):
+def draw_heatmap(img_path, means, sigmas, weights, objects, width, height, output_path, gt=None):
     def transparent_cmap(cmap, N=255):
         "Copy colormap and set alpha values"
         mycmap = cmap
@@ -57,3 +57,24 @@ ef draw_heatmap(img_path, means, sigmas, weights, objects, width, height, output
     plt.axis('off')
     plt.savefig(output_path, bbox_inches='tight', pad_inches=0)
     plt.clf()
+
+    from scipy.stats import multivariate_normal
+def gauss_fun(X, Y):
+    mux = [2.0, 2.5, 3.0, 3.5, 4.0, 4.5]
+    muy = [1.2, 1.7, 2.2, 2.7, 3.2, 3.7]
+    sx = [0.5, 0.6, 0.65, 0.55, 0.7, 0.8]
+    sy = [1.0, 1.2, 1.2, 1.15, 0.9, 0.8]
+    rho = [0.1, 0.2, 0.2, 0.19, 0.2, 0.2]
+    d = np.dstack([X, Y])
+    z = None
+    for i in range(len(mux)):
+        mean = [mux[i], muy[i]]
+        # Extract covariance matrix
+        cov = [[sx[i] * sx[i], rho[i] * sx[i] * sy[i]], [rho[i] * sx[i] * sy[i], sy[i] * sy[i]]]
+        gaussian = multivariate_normal(mean = mean, cov = cov)
+        z_ret = gaussian.pdf(d)
+        if z is None:
+            z = z_ret
+        else:
+            z += z_ret
+    return z
