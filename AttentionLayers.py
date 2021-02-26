@@ -27,6 +27,32 @@ class AttentionLayer(torch.nn.Module):
         return z, global_feature
 
     
+    
+    
+class ScaleDotProductAttention(nn.Module):
+  
+    def __init__(self):
+        super(ScaleDotProductAttention, self).__init__()
+        self.softmax = nn.Softmax()
+
+    def forward(self, q, k, v, mask=None, e=1e-12):
+        batch_size, head, length, d_tensor = k.size()
+
+        # 1. dot product Query with Key^T to compute similarity
+        k_t = k.view(batch_size, head, d_tensor, length) 
+        score = (q @ k_t) / math.sqrt(d_tensor) 
+
+        # 2. apply masking (opt)
+        if mask is not None:
+            score = score.masked_fill(mask == 0, -e)
+
+        # 3. pass them softmax to make [0, 1] range
+        score = self.softmax(score)
+
+        # 4. multiply with Value
+        v = score @ v
+
+        return v, score
 class MultiHeadAttention(nn.Module):
     def __init__(self, model_dim, n_head, dropout_rate):
         super(MultiHeadAttention, self).__init__()
