@@ -29,10 +29,10 @@ class AttentionLayer(torch.nn.Module):
     
     
     
-class ScaleDotProductAttention(nn.Module):
+class ScaledDotProductAttention(nn.Module):
   
     def __init__(self):
-        super(ScaleDotProductAttention, self).__init__()
+        super(ScaledDotProductAttention, self).__init__()
         self.softmax = nn.Softmax()
 
     def forward(self, q, k, v, mask=None, e=1e-12):
